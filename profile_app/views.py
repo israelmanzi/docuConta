@@ -7,6 +7,7 @@ from profile_app.models import Profile
 
 class ProfileList(ListView):
     model = Profile
+    paginate_by = 5
 
 class ProfileView(DetailView):
     model = Profile

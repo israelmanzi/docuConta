@@ -55,3 +55,19 @@ def refresh_token(request):
 
     except Exception as e:
         return Response({'detail': 'Invalid refresh token'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['PUT'])
+def update(request):
+    user = User.objects.filter(email=request.data.get('email')).first()
+
+    if user is None:
+        return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
