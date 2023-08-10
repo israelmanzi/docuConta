@@ -1,6 +1,7 @@
 from datetime import timedelta
 import os
 from pathlib import Path
+import dj_database_url
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -72,16 +73,19 @@ WSGI_APPLICATION = 'docu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     'NAME': os.environ.get('DB_NAME'),
+#     'HOST': os.environ.get('DB_HOST'),
+#     'PORT': os.environ.get('DB_PORT'),
+#     'USER': os.environ.get('DB_USER'),
+#     'PASSWORD': os.environ.get('DB_PASSWORD')
+#   }
+# }
+
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': os.environ.get('DB_NAME'),
-    'HOST': os.environ.get('DB_HOST'),
-    'PORT': os.environ.get('DB_PORT'),
-    'USER': os.environ.get('DB_USER'),
-    'PASSWORD': os.environ.get('DB_PASSWORD'),
-    'OPTIONS': {'ssl': {'ca': os.environ.get('MYSQL_ATTR_SSL_CA')}}
-  }
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
 REST_FRAMEWORK = {
@@ -133,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
